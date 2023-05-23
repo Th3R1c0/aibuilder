@@ -71,8 +71,8 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col">
-      <header className="z-50 fixed backdrop-blur-lg   backdrop-brightness-50 border-black border-b-4 px-20 flex h-max w-screen items-center justify-between p-4">
+    <div className="flex flex-col ">
+      <header className="z-50   bg-black border-black border-b-4 px-20 flex h-max w-full items-center justify-between p-4">
         <div className="text-3xl text-white font-bold tracking-wide">
           Splatter AI
         </div>
@@ -83,8 +83,8 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex h-screen w-full ">
-        <div className="flex z-40 h-screen lg:w-1/2 items-center justify-center bg-red w-full">
+      <div className="flex  h-screen w-full ">
+        <div className="flex z-40 h-screen  lg:w-1/2 items-center justify-center bg-red w-full">
           <div className="flex h-max w-max flex-col space-y-6  p-8 rounded-lg ">
             {" "}
             {/*border-blue-400 bg-blue-200*/}

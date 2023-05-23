@@ -201,10 +201,7 @@ const Flow = () => {
     []
   );
   return (
-    <div
-      className="w-full hidden lg:inline h-screen bg-blue-900"
-      ref={reactFlowWrapper}
-    >
+    <div className=" w-full hidden lg:inline h-screen " ref={reactFlowWrapper}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
