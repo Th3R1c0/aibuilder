@@ -31,42 +31,134 @@ import ComposableNode from "../customNodes/node";
 
 interface initialNodesI {
   id: string;
-  type: "openAiNode" | "LLMchain" | "PromptTemplates";
+  type: "openAiNode" | "LLMchain" | "PromptTemplates" | "node";
   data: any;
   position: { x: number; y: number };
 }
 
 const initialNodes: initialNodesI[] = [
-  //   {
-  //     id: "1",
-  //     type: "openAiNode",
-  //     data: { label: "Input Node" },
-  //     position: { x: -400, y: 25 },
-  //   },
-  //   {
-  //     id: "2",
-  //     type: "LLMchain",
-  //     data: { label: <div>Default Node</div> },
-  //     position: { x: 100, y: 125 },
-  //   },
-  //   {
-  //     id: "3",
-  //     type: "PromptTemplates",
-  //     data: { label: "Output Node" },
-  //     position: { x: -100, y: -300 },
-  //   },
-  //   {
-  //     id: "4",
-  //     type: "node",
-  //     data: { label: <div>Default Node</div> },
-  //     position: { x: 200, y: 200 },
-  //   },
+  {
+    id: "1",
+    type: "node",
+    data: {
+      inputs: [1],
+      outputs: [
+        {
+          descripton: "openai llm",
+          type: "output",
+        },
+      ],
+      description: "Connect to Open Ai llm",
+      icon: "icon",
+      parameters: [
+        {
+          descripton: "enter your api key here",
+          type: "parameter",
+        },
+      ],
+      name: "API KEY",
+    },
+    position: { x: -100, y: 325 },
+  },
+  {
+    id: "2",
+    type: "node",
+    data: {
+      inputs: [1],
+      outputs: [
+        {
+          descripton: "openai llm",
+          type: "output",
+        },
+      ],
+      description: "description",
+      icon: "icon",
+      parameters: [
+        {
+          descripton: "enter your api key here",
+          type: "parameter",
+        },
+      ],
+      name: "LLM",
+    },
+    position: { x: 500, y: 200 },
+  },
+  {
+    id: "3",
+    type: "node",
+    data: {
+      inputs: [1],
+      outputs: [
+        {
+          descripton: "openai llm",
+          type: "output",
+        },
+      ],
+      description: "Enter your prompt here",
+      icon: "icon",
+      parameters: [
+        {
+          descripton: "enter your api key here",
+          type: "parameter",
+        },
+      ],
+      name: "PROMPT",
+    },
+    position: { x: 0, y: -200 },
+  },
+  {
+    id: "4",
+    type: "node",
+    data: {
+      inputs: [1],
+      outputs: [
+        {
+          descripton: "openai llm",
+          type: "output",
+        },
+      ],
+      description: "zero shot agent",
+      icon: "icon",
+      parameters: [
+        {
+          descripton: "enter your api key here",
+          type: "parameter",
+        },
+      ],
+      name: "zero shot agent",
+    },
+    position: { x: 900, y: 500 },
+  },
+  {
+    id: "5",
+    type: "node",
+    data: {
+      inputs: [1],
+      outputs: [
+        {
+          descripton: "openai llm",
+          type: "output",
+        },
+      ],
+      description: "Search for a vector in the database",
+      icon: "icon",
+      parameters: [
+        {
+          descripton: "enter your api key here",
+          type: "parameter",
+        },
+      ],
+      name: "vector database",
+    },
+    position: { x: 400, y: -300 },
+  },
 ];
 
-const initialEdges: any = [
-  //   { id: "e1-2", source: "1", target: "2", animated: false },
-  //   { id: "e3-2", source: "3", target: "2", animated: false },
-  //   { id: "e2-4", source: "2", target: "4", animated: false },
+const initialEdges = [
+  { id: "e1-2", source: "1", target: "2", animated: false },
+  { id: "e3-2", source: "3", target: "2", animated: true },
+  { id: "e2-4", source: "2", target: "4", animated: false },
+  { id: "e5-2", source: "5", target: "2", animated: true },
 ];
 
 //drag and drop
@@ -85,54 +177,6 @@ const Flow = () => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  const [nodeClasses, setNodeClasses] = useState([]);
-
-  const onDrop = useCallback(
-    (event: any) => {
-      event.preventDefault();
-
-      const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-      //receive nodeTypes "openAiNode" | "LLMchain" | "PromptTemplates" from sidebar.tsx
-      const type = event.dataTransfer.getData("application/reactflow");
-      console.log("type:", type);
-      // check if the dropped element is valid
-      if (typeof type === "undefined" || !type) {
-        return;
-      }
-      //----------- class creation --------------------
-      let newnodeclass;
-      if (type === "PromptTemplates") {
-        newnodeclass = new Prompt();
-        console.log(newnodeclass);
-      } else if (type === "openAiNode") {
-        newnodeclass = new Openai();
-      }
-
-      const position = reactFlowInstance.project({
-        x: event.clientX - reactFlowBounds.left,
-        y: event.clientY - reactFlowBounds.top,
-      });
-      if (newnodeclass) {
-        const newNode = {
-          id: getId(),
-          type: "node",
-          position,
-          data: {
-            inputs: newnodeclass.inputs,
-            outputs: newnodeclass.outputs,
-            description: newnodeclass.description,
-            icon: newnodeclass.icon,
-            parameters: newnodeclass.parameters,
-            name: newnodeclass.name,
-          },
-        };
-
-        setNodes((nds) => nds.concat(newNode));
-      }
-    },
-    [reactFlowInstance]
-  );
-
   // const onNodesChange = useCallback(
   //   (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
   //   [setNodes]
@@ -146,6 +190,7 @@ const Flow = () => {
     [setEdges]
   );
 
+  const [backgroundVariant, setBackgroundVariant] = useState("cross");
   const nodeTypes = useMemo(
     () => ({
       openAiNode: OpenAINode,
@@ -155,9 +200,11 @@ const Flow = () => {
     }),
     []
   );
-  const [backgroundVariant, setBackgroundVariant] = useState("cross");
   return (
-    <div className="w-full h-full" ref={reactFlowWrapper}>
+    <div
+      className="w-full hidden lg:inline h-screen bg-blue-900"
+      ref={reactFlowWrapper}
+    >
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -165,13 +212,13 @@ const Flow = () => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         onInit={setReactFlowInstance}
-        onDrop={onDrop}
         onDragOver={onDragOver}
         fitView
         nodeTypes={nodeTypes}
       >
-        <MiniMap zoomable pannable />
         <Background variant={backgroundVariant as any} />
+        {/* <MiniMap zoomable pannable />
+        
         <Panel position="top-right" className="bg-gray-300 p-4 rounded-md">
           <div>Bg-style:</div>
           <div className="flex space-x-2">
@@ -179,7 +226,7 @@ const Flow = () => {
             <button onClick={() => setBackgroundVariant("lines")}>lines</button>
             <button onClick={() => setBackgroundVariant("cross")}>cross</button>
           </div>
-        </Panel>
+        </Panel> */}
       </ReactFlow>
     </div>
   );

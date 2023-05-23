@@ -19,6 +19,7 @@ export default function Sidebar() {
 
   //for html drag and drop
   const onDragStart = (event: any, nodeType: nodeTypes) => {
+    // sends nodeTypes "openAiNode" | "LLMchain" | "PromptTemplates" to flow.tsx
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
   };
