@@ -2,15 +2,16 @@
 
 import Sidebar from "../../components/sidebar";
 import CodeSideBar from "../../components/CodeSideBar";
-import { useState } from "react";
+import { useState, createContext, useContext } from "react";
 //react tabs
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 
-import Flow from "@/components/flow";
+import Flow from "../flow";
 
 export default function Home() {
   const [totalTabs] = useState([1, 2, 3]);
+
   return (
     <div className="w-screen h-screen flex flex-col">
       <header className="w-screen p-4 bg-gray-400 flex">AI builder</header>
