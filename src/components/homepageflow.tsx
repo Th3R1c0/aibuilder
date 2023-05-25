@@ -98,7 +98,7 @@ const initialNodes: initialNodesI[] = [
       icon: "icon",
       parameters: [
         {
-          descripton: "enter your api key here",
+          descripton: "enter your llm here",
           type: "parameter",
         },
       ],
@@ -121,7 +121,7 @@ const initialNodes: initialNodesI[] = [
       icon: "icon",
       parameters: [
         {
-          descripton: "enter your api key here",
+          descripton: "enter zero shot prompt",
           type: "parameter",
         },
       ],
@@ -144,7 +144,7 @@ const initialNodes: initialNodesI[] = [
       icon: "icon",
       parameters: [
         {
-          descripton: "enter your api key here",
+          descripton: "enter pine cone index",
           type: "parameter",
         },
       ],
