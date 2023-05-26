@@ -195,6 +195,7 @@ const Flow = () => {
       >
         <MiniMap zoomable pannable />
         <Background variant={backgroundVariant as any} />
+        {/* nodelibrary needs to be a pannnel
         <Panel position="top-right" className="bg-gray-300 p-4 rounded-md">
           <div>Bg-style:</div>
           <div className="flex space-x-2">
@@ -202,7 +203,7 @@ const Flow = () => {
             <button onClick={() => setBackgroundVariant("lines")}>lines</button>
             <button onClick={() => setBackgroundVariant("cross")}>cross</button>
           </div>
-        </Panel>
+        </Panel> */}
       </ReactFlow>
     </div>
   );

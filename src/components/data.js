@@ -221,6 +221,7 @@ const fulldata = [
     "category": "Chains",
     "description": "Chain to run queries against LLMs",
     "baseClasses": ["LLMChain", "BaseChain", "BaseLangChain"],
+    "SortedCategory": "Basic",
     "inputs": [
       {
         "label": "Language Model",
@@ -1483,6 +1484,7 @@ const fulldata = [
       "BaseStringPromptTemplate",
       "BasePromptTemplate"
     ],
+    "SortedCategory": 'Basic', 
     "inputs": [
       {
         "label": "Template",
@@ -1968,6 +1970,7 @@ const fulldata = [
     "category": "Vector Stores",
     "description": "In-memory vectorstore that stores embeddings and does an exact, linear search for the most similar embeddings.",
     "baseClasses": ["Memory", "VectorStoreRetriever", "BaseRetriever"],
+    "SortedCategory": "Data",
     "inputs": [
       {
         "label": "Document",

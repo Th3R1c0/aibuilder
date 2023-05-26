@@ -1,108 +1,74 @@
+"use client";
+
 import { Disclosure } from "@headlessui/react";
-import fulldata from "./data";
+import fulldata from "./nodeData";
 type nodeTypes = "openAiNode" | "LLMchain" | "PromptTemplates";
 import groupBy from "lodash/groupBy";
+import * as Accordion from "@radix-ui/react-accordion";
+import classNames from "classnames";
+import React from "react";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { DragHandleDots2Icon } from "@radix-ui/react-icons";
+import { BackpackIcon } from "@radix-ui/react-icons";
+
+/* eslint-disable react/display-name */
+
+const AccordionItem = React.forwardRef(
+  ({ children, className, ...props }, forwardedRef) => (
+    <Accordion.Item
+      className={classNames(
+        " mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b ",
+        className
+      )}
+      {...props}
+      ref={forwardedRef}
+    >
+      {children}
+    </Accordion.Item>
+  )
+);
+
+const AccordionTrigger = React.forwardRef(
+  ({ children, className, ...props }, forwardedRef) => (
+    <Accordion.Header className="flex">
+      <Accordion.Trigger
+        className={classNames(
+          "text-violet11   group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-2 text-[15px]  outline-none",
+          className
+        )}
+        {...props}
+        ref={forwardedRef}
+      >
+        <div class="flex items-center gap-2">
+          <BackpackIcon />
+          {children}
+        </div>
+
+        <ChevronDownIcon
+          className="text-violet10 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-transform duration-300 group-data-[state=open]:rotate-180"
+          aria-hidden
+        />
+      </Accordion.Trigger>
+    </Accordion.Header>
+  )
+);
+
+const AccordionContent = React.forwardRef(
+  ({ children, className, ...props }, forwardedRef) => (
+    <Accordion.Content
+      className={classNames(
+        "  data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]",
+        className
+      )}
+      {...props}
+      ref={forwardedRef}
+    >
+      <div className="flex flex-col space-y-2">{children}</div>
+    </Accordion.Content>
+  )
+);
+
 export default function Sidebar() {
-  const nodes = [
-    {
-      name: "Prompts",
-      data: ["PromptTemplates", "PromptTemplates"],
-      inputs: [
-        { label: "input_label_1", name: "input_name_1", type: "string" },
-        { label: "input_label_2", name: "input_name_2", type: "CustomType" },
-      ],
-      outputs: [
-        {
-          name: "output_name_1",
-          label: "output_label_1",
-          baseClasses: ["baseClass1", "baseClass2"],
-        },
-        {
-          name: "output_name_2",
-          label: "output_label_2",
-          baseClasses: ["baseClass3"],
-        },
-      ],
-    },
-    { name: "LLMs", data: ["openAiNode", "openAiNode", "openAiNode"] },
-    { name: "Chains", data: ["LLMchain", "LLMchain", "LLMchain"] },
-    { name: "Agents", data: ["jsonAgent", "SQLAgent"] },
-    { name: "Document Loaders", data: ["Loader1", "Loader2"] },
-    { name: "Embeddings", data: ["Embedding1", "Embedding2"] },
-    { name: "Memories", data: ["Memory1", "Memory2", "Memory3", "Memory4"] },
-    { name: "Text Splitters", data: ["Splitter1", "Splitter2", "Splitter3"] },
-    { name: "Toolkits", data: ["Toolkit1", "Toolkit2", "Toolkit3"] },
-    { name: "Tools", data: ["Tool1", "Tool2", "Tool3"] },
-    { name: "Utilities", data: ["Utility1", "Utility2", "Utility3"] },
-    { name: "Vector Stores", data: ["Store1", "Store2"] },
-    { name: "Wrappers", data: ["Wrapper1", "Wrapper2", "Wrapper3"] },
-  ];
-
-  const _nodes = fulldata;
-
-  const _dnodes = [
-    {
-      label: "LLM Chain",
-      name: "llmChain",
-      type: "LLMChain",
-      icon: "D:/Flowise-1/node_modules/flowise-components/dist/nodes/chains/LLMChain/chain.svg",
-      category: "Chains",
-      description: "Chain to run queries against LLMs",
-      baseClasses: ["LLMChain", "BaseChain", "BaseLangChain"],
-      inputs: [{ label: "Prompt", name: "prompt", type: "BasePromptTemplate" }],
-      outputs: [
-        {
-          label: "LLM Chain",
-          name: "llmChain",
-          baseClasses: ["LLMChain", "BaseChain", "BaseLangChain"],
-        },
-        {
-          label: "Output Prediction",
-          name: "outputPrediction",
-          baseClasses: ["string"],
-        },
-      ],
-      filePath:
-        "D:\\Flowise-1\\node_modules\\flowise-components\\dist\\nodes\\chains\\LLMChain\\LLMChain.js",
-    },
-    {
-      label: "Prompt Template",
-      name: "promptTemplate",
-      type: "PromptTemplate",
-      icon: "D:/Flowise-1/node_modules/flowise-components/dist/nodes/prompts/PromptTemplate/prompt.svg",
-      category: "Prompts",
-      description: "Schema to represent a basic prompt for an LLM",
-      baseClasses: [
-        "PromptTemplate",
-        "BaseStringPromptTemplate",
-        "BasePromptTemplate",
-      ],
-      inputs: [
-        {
-          label: "Template",
-          name: "template",
-          type: "string",
-          rows: 4,
-          placeholder:
-            "What is a good name for a company that makes {product}?",
-        },
-        {
-          label: "Format Prompt Values",
-          name: "promptValues",
-          type: "string",
-          rows: 4,
-          placeholder:
-            '{\n  "input_language": "English",\n  "output_language": "French"\n}',
-          optional: true,
-          acceptVariable: true,
-          list: true,
-        },
-      ],
-      filePath:
-        "D:\\Flowise-1\\node_modules\\flowise-components\\dist\\nodes\\prompts\\PromptTemplate\\PromptTemplate.js",
-    },
-  ];
-
   //for html drag and drop
   const onDragStart = (event: any, node: any) => {
     //send all of _node object to flow
@@ -111,18 +77,19 @@ export default function Sidebar() {
     event.dataTransfer.effectAllowed = "move";
   };
 
-  const groupedData = groupBy(_nodes, "category");
+  const groupedData = _.groupBy(fulldata, "category");
+
   console.log(groupedData);
 
   return (
-    <div className="bg-gray-200 p-2">
-      <h1 className="text-2xl font-bold">Sidebar</h1>
-      <div className=" w-ful  flex flex-col justify-start items-start">
-        {Object.keys(groupedData).map((category, index) => {
+    <div className="bg-white border-2 fixed z-50 m-10 h-max rounded-md  p-4 space-y-4">
+      <h1 className="text-2xl font-bold">+ Node Library</h1>
+      {/* <div className=" w-ful  flex flex-col justify-start items-start"> */}
+      {/* {Object.keys(groupedData).map((category, index) => {
           return (
             <Disclosure key={index}>
               <Disclosure.Button
-                className={`flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75`}
+                className={`flex w-full justify-between rounded-lg bg-purple-100 px-4 -2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75`}
               >
                 {category}
               </Disclosure.Button>
@@ -140,64 +107,42 @@ export default function Sidebar() {
               })}
             </Disclosure>
           );
-        })}
-
-        {/* {_nodes.map((node, index) => {
-          return (
-            <div
-              key={index}
-              className="bg-red-200 p-4 rounded-md"
-              //send whole node object to dragstart
-              onDragStart={(event) => onDragStart(event, node as any)}
-              draggable
-            >
-              {node.name}
-            </div>
-          );
         })} */}
 
-        {/* {[groupedData].map((category, index) => (
-          <Disclosure key={index}>
-            {({ open }) => (
-              <>
-                <Disclosure.Button
-                  className={`flex w-full justify-between rounded-lg bg-purple-100 px-4 py-2 text-left text-sm font-medium text-purple-900 hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75`}
-                >
-                  <span>{category}</span>
-                </Disclosure.Button>
-                <Disclosure.Panel className="flex flex-col space-y-2 py-2">
-                  {[category].map((node, index) => {
-                    return (
-                      <div
-                        //html drag and drop implementation
-                        onDragStart={(event) =>
-                          onDragStart(event, node as nodeTypes)
-                        }
-                        draggable
-                        className=" bg-white px-4 pt-4 pb-2 rounded-md text-sm text-gray-500"
-                        key={index}
-                      >
-                        {node}
-                      </div>
-                    );
-                  })}
-                </Disclosure.Panel>
-              </>
-            )}
-          </Disclosure>
-        ))}
-        <div className="flex flex-col bg-red-200">
-          {nodes.map((node, index) => {
-            return (
-              <Disclosure key={index}>
-                <Disclosure.Button className="py-2">{node}</Disclosure.Button>
-                <Disclosure.Panel className="text-gray-500">
-                  <div>drag and drop button</div>
-                </Disclosure.Panel>
-              </Disclosure>
-            );
-          })}  */}
-      </div>
+      {/* </div> */}
+      <Accordion.Root
+        className=" w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5"
+        type="single"
+        defaultValue="item-1"
+        collapsible
+      >
+        {Object.keys(groupedData).map((category, index) => {
+          return (
+            <AccordionItem
+              key={index}
+              value={category}
+              className="p-2 border-2 "
+            >
+              <AccordionTrigger>{category}</AccordionTrigger>
+              <AccordionContent>
+                {groupedData[category].map((node, index) => {
+                  return (
+                    <div
+                      key={index}
+                      onDragStart={(event) => onDragStart(event, node as any)}
+                      draggable
+                      className="bg-white rounded-md border-2 p-2 flex items-center"
+                    >
+                      <DragHandleDots2Icon />
+                      {node.name}
+                    </div>
+                  );
+                })}
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
+      </Accordion.Root>
     </div>
   );
 }

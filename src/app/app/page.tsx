@@ -1,7 +1,7 @@
 "use client";
 
 import Sidebar from "../../components/sidebar";
-import CodeSideBar from "../../components/CodeSideBar";
+import RightSideBar from "../../components/RightSideBar";
 import { useState, createContext, useContext } from "react";
 //react tabs
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div className="w-screen h-screen flex flex-col">
       <header className="w-screen p-4 bg-gray-400 flex">AI builder</header>
-      <main className="w-full h-full flex">
+      <main className="w-full h-full flex relative ">
         <Sidebar />
 
         {/* <Tabs className="w-full h-full">
@@ -33,7 +33,7 @@ export default function Home() {
         </Tabs> */}
         <Flow />
 
-        <CodeSideBar />
+        <RightSideBar />
       </main>
     </div>
   );
