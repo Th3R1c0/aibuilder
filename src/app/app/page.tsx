@@ -14,7 +14,9 @@ export default function Home() {
 
   return (
     <div className="w-screen h-screen flex flex-col">
-      <header className="w-screen p-4 bg-gray-400 flex">AI builder</header>
+      <header className="w-screen p-4 bg-gray-400 flex">
+        Splatter AI Extreme Prototype{" "}
+      </header>
       <main className="w-full h-full flex relative ">
         <Sidebar />
 
