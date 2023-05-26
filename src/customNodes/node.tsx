@@ -168,7 +168,7 @@ const ComposableNode = ({ data }: any) => {
   const { reactFlowInstance, setReactFlowInstance } = useContext(flowContext);
   const { deleteNode, duplicateNode } = useContext(flowContext);
 
-  const [settings, setIsSettingsOpen] = useState(true);
+  const [settings, setIsSettingsOpen] = useState(false);
 
   const [variableSearchPopup, setIsVariableSearchPopup] = useState(false);
 
