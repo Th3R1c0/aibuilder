@@ -240,29 +240,6 @@ const fulldata = [
                 type: 'string',  
                 variableName: '',
             }, 
-            {
-                label: 'Prompt', 
-                type: 'Prompt Template', 
-                variableName: '',
-
-            },
-            {
-                label: 'Model', 
-                type: 'Model',
-                variableName: '',
-            },
-            {
-                label: 'Output Parser', 
-                type: 'Output Parser',
-                variableName: '',
-                optional: true,
-            }, 
-            {
-                label: 'Memory',
-                type: 'Memory',
-                variableName: '',
-                optional: true,
-            }
         ],
         "outputs": [
           {
@@ -354,64 +331,30 @@ const fulldata = [
               },
         ],
         //only needed if your adding inputAnchors, then the type would be baseclass it accepts, i just put string so it would render param
-        // "inputs": [
-        //   {
-        //     "label": "Language Model",
-        //     "name": "model",
-        //     // if its not a string or number, it becomes a input for other nodes to connect to 
-        //     "type": "string",
-        //   },
-        //   { "label": "Prompt", "name": "prompt", "type": "string" },
-        //   {
-        //     "label": "Chain name",
-        //     "name": "chainName",
-        //     "type": "string",
-        //     "placeholder": "Give it a name",
-        //     //not requried for this node to run
-        //     "optional": true,
-        //   }
-        // ],
+        "inputs": [
+          {
+            "label": "Input",
+            "name": "model",
+            // if its not a string or number, it becomes a input for other nodes to connect to 
+            "type": "BaseLanguageModel",
+            optional: true,
+          },
+        ],
         variables: [
-            {
-                label: 'Name', 
-                type: 'string',  
-                variableName: '',
-            }, 
-            {
-                label: 'Prompt', 
-                type: 'Prompt Template', 
-                variableName: '',
-
-            },
-            {
-                label: 'Model', 
-                type: 'Model',
-                variableName: '',
-            },
-            {
-                label: 'Output Parser', 
-                type: 'Output Parser',
-                variableName: '',
-                optional: true,
-            }, 
-            {
-                label: 'Memory',
-                type: 'Memory',
-                variableName: '',
-                optional: true,
-            }
+            // {
+            //     label: 'Name', 
+            //     type: 'string',  
+            //     variableName: '',
+            // }, 
+            
         ],
         "outputs": [
           {
-            "label": "LLM Chain",
+            "label": "Chain",
             "name": "llmChain",
             "baseClasses": ["LLMChain", "BaseChain", "BaseLangChain"]
           },
-          {
-            "label": "Output Prediction",
-            "name": "outputPrediction",
-            "baseClasses": ["string"]
-          }
+
         ],
       },
 ]

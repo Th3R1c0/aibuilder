@@ -1173,7 +1173,7 @@ const fulldata = [
         "additionalParams": true
       },
       {
-        "label": "Frequency Penalty",
+        "label": "Frequency Penalty",  
         "name": "frequencyPenalty",
         "type": "number",
         "optional": true,
