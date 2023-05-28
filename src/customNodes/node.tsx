@@ -171,51 +171,12 @@ const ComposableNode = ({ data }: any) => {
   const [settings, setIsSettingsOpen] = useState(false);
 
   const [variableSearchPopup, setIsVariableSearchPopup] = useState(false);
-
+  const handleEditVariable = (variableName: string) => {
+    // when there is no variable (variableName === ''), open a popup? or go to sidebar and open variable tab? orrrr.
+  };
   return (
     // overflow hidden creates half circles
     <>
-      <NodeToolbar
-        isVisible={settings}
-        position="right"
-        className=" bg-white rounded-md space-y-4 flex flex-col border p-4 border-gray-300 "
-      >
-        <div className="flex justify-between w-full border-b border-gray-300 items-center">
-          <span>Edit LLM Chain</span>
-          <Cross2Icon onClick={() => setIsSettingsOpen((e) => !e)} />
-        </div>
-        <div className="flex flex-col space-y-4">
-          {["name", "model", "prompt", "memory", "outputParser"].map(
-            (NodeSettings, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex justify-between items-center space-x-8"
-                >
-                  <span>{NodeSettings}</span>
-                  <button
-                    className="rounded-md bg-gray-200 border-2 border-black  px-2"
-                    onClick={() => setIsVariableSearchPopup((e) => !e)}
-                  >
-                    varialbe
-                  </button>
-                </div>
-              );
-            }
-          )}
-        </div>
-        {variableSearchPopup && (
-          <div className="absolute right-0 top-0 p-4 border border-gray-200 bg-red-200 ">
-            <div className="flex items-center space-y-4">
-              <MagnifyingGlassIcon />
-              <input
-                type="text"
-                className="rounded-md border border-gray-200 p"
-              />
-            </div>
-          </div>
-        )}
-      </NodeToolbar>
       <div className=" shadow-md hover:border-blue-800  bg-white border-2 border-gray-300 rounded-lg  flex flex-col ">
         {/* header */}
         <div className="flex flex-col p-2 border-b-2 border-gray-300">
@@ -264,15 +225,35 @@ const ComposableNode = ({ data }: any) => {
               </Tooltip>
             );
           })}
-        {/* render paramters */}
-        <div className="flex flex-col p-8 border-b-2 space-y-4 border-gray-300">
-          {data.inputParams &&
-            data.inputParams.map((parameter: any, index: number) => {
+        {/* render paramters if we have any inputs which turn into inputAnchors from algorythm */}
+        {/* {data.inputParams && (
+          <div className="flex flex-col p-8 border-b-2 space-y-4 border-gray-300">
+            {data.inputParams.map((parameter: any, index: number) => {
               return (
                 <div key={index} className="w-full 200 justify-between flex">
                   <div>{parameter.name}</div>
                   <button className="rounded-md border-2 border-black  px-2">
                     varialbe
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        )}{" "} */}
+        {/* render variables */}
+        <div className="flex flex-col p-8 border-b-2 space-y-4 border-gray-300">
+          {data.variables &&
+            data.variables.map((variable: any, index: number) => {
+              return (
+                <div key={index} className="w-full 200 justify-between flex">
+                  <div>{variable.label}</div>
+                  <button
+                    onClick={handleEditVariable(variable.variableName)}
+                    className="rounded-md border-2 border-black  px-2"
+                  >
+                    {variable.variableName === ""
+                      ? "+ Add"
+                      : variable.variableName}
                   </button>
                 </div>
               );
@@ -282,7 +263,7 @@ const ComposableNode = ({ data }: any) => {
         <div className="py-2">
           {data?.outputAnchors?.map((outputAnchor: any, index: any) => {
             // if (outputAnchor.type !== "options" && !outputAnchor.options) {
-            console.log(outputAnchor.options);
+
             return (
               <div key={index}>
                 {outputAnchor.options.map(
@@ -314,7 +295,7 @@ const ComposableNode = ({ data }: any) => {
             );
           })}
         </div>
-
+        {/* {optional outputs} */}
         {/* {data?.outputAnchors?.map((outputAnchor: any, index: any) => {
           if (outputAnchor.type !== "options" && !outputAnchor.options) {
             return (

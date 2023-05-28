@@ -31,25 +31,31 @@ const initialValue = {
     setReactFlowInstance: () => {},
     duplicateNode: () => {},
     deleteNode: () => {},
-    deleteEdge: () => {}
+    deleteEdge: () => {}, 
+    currentSelectedNode: null,
+    variables: [],
+    setVariables: () => {},
 }
 
 export const flowContext = createContext(initialValue)
 
+
 export const ReactFlowContext = ({ children }) => {
     const [reactFlowInstance, setReactFlowInstance] = useState(null)
-
+    const [currentSelectedNode, setCurrentSelectedNode] = useState(null)
+    const [variables, setVariables] = useState([])
+//! delete node 
     const deleteNode = (nodeid) => {
         deleteConnectedInput(nodeid, 'node')
         reactFlowInstance.setNodes(reactFlowInstance.getNodes().filter((n) => n.id !== nodeid))
         reactFlowInstance.setEdges(reactFlowInstance.getEdges().filter((ns) => ns.source !== nodeid && ns.target !== nodeid))
     }
-
+//! delete edge
     const deleteEdge = (edgeid) => {
         deleteConnectedInput(edgeid, 'edge')
         reactFlowInstance.setEdges(reactFlowInstance.getEdges().filter((edge) => edge.id !== edgeid))
     }
-
+//! delete input connected to each other
     const deleteConnectedInput = (id, type) => {
         const connectedEdges =
             type === 'node'
@@ -89,7 +95,7 @@ export const ReactFlowContext = ({ children }) => {
             )
         }
     }
-
+//! duplicate node
     const duplicateNode = (id) => {
         const nodes = reactFlowInstance.getNodes()
         const originalNode = nodes.find((n) => n.id === id)
@@ -136,7 +142,11 @@ export const ReactFlowContext = ({ children }) => {
                 setReactFlowInstance,
                 deleteNode,
                 deleteEdge,
-                duplicateNode
+                duplicateNode, 
+                currentSelectedNode, 
+                setCurrentSelectedNode,
+                variables,
+                setVariables,
             }}
         >
             {children}

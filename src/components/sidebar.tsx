@@ -79,8 +79,6 @@ export default function Sidebar() {
 
   const groupedData = _.groupBy(fulldata, "category");
 
-  console.log(groupedData);
-
   return (
     <div className="bg-white border-2 fixed z-50 m-10 h-max rounded-md  p-4 space-y-4">
       <h1 className="text-2xl font-bold">+ Node Library</h1>

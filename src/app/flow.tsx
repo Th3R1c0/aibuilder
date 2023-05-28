@@ -51,6 +51,7 @@ const Flow = () => {
   const reactFlowWrapper = useRef(null);
   // const [reactFlowInstance, setReactFlowInstance] = useState<any | null>(null);
   const { reactFlowInstance, setReactFlowInstance } = useContext(flowContext);
+  const { setCurrentSelectedNode } = useContext(flowContext);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   //drag and drop html native
@@ -179,6 +180,7 @@ const Flow = () => {
     []
   );
   const [backgroundVariant, setBackgroundVariant] = useState("cross");
+
   return (
     <div className="w-full h-full" ref={reactFlowWrapper}>
       <ReactFlow
@@ -192,6 +194,7 @@ const Flow = () => {
         onDragOver={onDragOver}
         fitView
         nodeTypes={nodeTypes}
+        onNodeClick={(event, node) => setCurrentSelectedNode(node)}
       >
         <MiniMap zoomable pannable />
         <Background variant={backgroundVariant as any} />
