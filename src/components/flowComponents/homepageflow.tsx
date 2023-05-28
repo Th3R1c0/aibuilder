@@ -21,13 +21,13 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 
 //node classes
-import { Prompt } from "../../langchainModuleClasses/prompt";
-import { Openai } from "../../langchainModuleClasses/openai";
+import { Prompt } from "../../../langchainModuleClasses/prompt";
+import { Openai } from "../../../langchainModuleClasses/openai";
 //custom nodes
-import OpenAINode from "../customNodes/openAI";
-import LLMchain from "../customNodes/LLMchain";
-import PromptTemplates from "../customNodes/PromptTemplate";
-import ComposableNode from "../customNodes/node";
+import OpenAINode from "../../customNodes/openAI";
+import LLMchain from "../../customNodes/LLMchain";
+import PromptTemplates from "../../customNodes/PromptTemplate";
+import ComposableNode from "../../customNodes/node";
 
 interface initialNodesI {
   id: string;

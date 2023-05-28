@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 
 import { cloneDeep } from 'lodash'
@@ -35,6 +35,8 @@ const initialValue = {
     currentSelectedNode: null,
     variables: [],
     setVariables: () => {},
+    currentSidebarScreen: "no Variables",
+    setCurrentSideBarScreen: () => {},
 }
 
 export const flowContext = createContext(initialValue)
@@ -44,6 +46,21 @@ export const ReactFlowContext = ({ children }) => {
     const [reactFlowInstance, setReactFlowInstance] = useState(null)
     const [currentSelectedNode, setCurrentSelectedNode] = useState(null)
     const [variables, setVariables] = useState([])
+
+
+    const [currentSidebarScreen, setCurrentSideBarScreen] =
+    useState("no Variables");
+
+    useEffect(() => {
+        if (variables.length === 0) {
+          setCurrentSideBarScreen("no Variables");
+        } else {
+          setCurrentSideBarScreen("variables");
+        }
+      }, [variables.length]);
+
+
+
 //! delete node 
     const deleteNode = (nodeid) => {
         deleteConnectedInput(nodeid, 'node')
@@ -147,6 +164,8 @@ export const ReactFlowContext = ({ children }) => {
                 setCurrentSelectedNode,
                 variables,
                 setVariables,
+                currentSidebarScreen, 
+                setCurrentSideBarScreen
             }}
         >
             {children}

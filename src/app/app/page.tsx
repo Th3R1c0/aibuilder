@@ -1,22 +1,20 @@
 "use client";
 
-import Sidebar from "../../components/sidebar";
-import RightSideBar from "../../components/RightSideBar";
+import Sidebar from "../../components/leftSideBar/sidebar";
+import AppHeader from "@/components/header/index";
 import { useState, createContext, useContext } from "react";
 //react tabs
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
-
-import Flow from "../flow";
+import RightSidebar from "../../components/RightSideBar/index";
+import Flow from "../../components/flowComponents/flow";
 
 export default function Home() {
   const [totalTabs] = useState([1, 2, 3]);
 
   return (
     <div className="w-screen h-screen flex flex-col">
-      <header className="w-screen p-4 bg-gray-400 flex">
-        Splatter AI Extreme Prototype{" "}
-      </header>
+      <AppHeader />
       <main className="w-full h-full flex relative ">
         <Sidebar />
 
@@ -35,7 +33,7 @@ export default function Home() {
         </Tabs> */}
         <Flow />
 
-        <RightSideBar />
+        <RightSidebar />
       </main>
     </div>
   );

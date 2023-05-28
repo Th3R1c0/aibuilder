@@ -97,6 +97,7 @@ import {
   MagnifyingGlassIcon,
   MixerHorizontalIcon,
 } from "@radix-ui/react-icons";
+import { FcCheckmark } from "react-icons/fc";
 import * as Popover from "@radix-ui/react-popover";
 export const isValidConnection = (connection, reactFlowInstance) => {
   const sourceHandle = connection.sourceHandle;
@@ -174,6 +175,9 @@ const ComposableNode = ({ data }: any) => {
   const handleEditVariable = (variableName: string) => {
     // when there is no variable (variableName === ''), open a popup? or go to sidebar and open variable tab? orrrr.
   };
+
+  const { currentSelectedNode } = useContext(flowContext);
+
   return (
     // overflow hidden creates half circles
     <>
@@ -182,8 +186,8 @@ const ComposableNode = ({ data }: any) => {
         <div className="flex flex-col p-2 border-b-2 border-gray-300">
           {/* top header bar */}
           <div className="flex justify-between text-2xl space-x-12 items-center  ">
-            <div className="flex items-center space-x-4 flex-1  text-2xl font-bold ">
-              <IoSettingsSharp />
+            <div className="flex items-center space-x-2 flex-1  text-2xl font-bold ">
+              <FcCheckmark />
               <div>{data.name}</div>
             </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -203,28 +207,7 @@ const ComposableNode = ({ data }: any) => {
             <p>{data.description}</p>
           </div>
         </div>
-        {/* render inputs */}
-        {data.inputAnchors &&
-          data.inputAnchors.map((inputAnchor: any, index: any) => {
-            // console.log(`inputAnchors: ${JSON.stringify(inputAnchor)}`);
-            return (
-              <Tooltip key={index} title={inputAnchor.type}>
-                <div className="p-4 flex flex-col bg-gray-200 relative">
-                  <div>{inputAnchor.label}</div>
-                  <Handle
-                    position={Position.Left}
-                    type="target"
-                    key={inputAnchor.id}
-                    id={inputAnchor.id}
-                    isValidConnection={(connection) =>
-                      isValidConnection(connection, reactFlowInstance)
-                    }
-                    className=" absolute top-30 w-4 h-4 left-[-10px] "
-                  />
-                </div>
-              </Tooltip>
-            );
-          })}
+
         {/* render paramters if we have any inputs which turn into inputAnchors from algorythm */}
         {/* {data.inputParams && (
           <div className="flex flex-col p-8 border-b-2 space-y-4 border-gray-300">
@@ -241,15 +224,15 @@ const ComposableNode = ({ data }: any) => {
           </div>
         )}{" "} */}
         {/* render variables */}
-        <div className="flex flex-col p-8 border-b-2 space-y-4 border-gray-300">
+        <div className="flex flex-col p-4 border-b-2 space-y-4 border-gray-300">
           {data.variables &&
             data.variables.map((variable: any, index: number) => {
               return (
                 <div key={index} className="w-full 200 justify-between flex">
                   <div>{variable.label}</div>
                   <button
-                    onClick={handleEditVariable(variable.variableName)}
-                    className="rounded-md border-2 border-black  px-2"
+                    onClick={() => handleEditVariable(variable.variableName)}
+                    className="rounded-md border-2 border-black  px-2 hover:bg-gray-200"
                   >
                     {variable.variableName === ""
                       ? "+ Add"
@@ -259,6 +242,39 @@ const ComposableNode = ({ data }: any) => {
               );
             })}{" "}
         </div>
+
+        {/* render inputs */}
+        {data.inputAnchors &&
+          data.inputAnchors.map((inputAnchor: any, index: any) => {
+            // console.log(`inputAnchors: ${JSON.stringify(inputAnchor)}`);
+            if (inputAnchor.optional === true) {
+              return (
+                <Tooltip key={index} title={inputAnchor.type}>
+                  <div className="p-4 flex items-center justify-center text-gray-400 border-b-2 border-gray-300 relative">
+                    <div>Start by dragging a chain here</div>
+                  </div>
+                </Tooltip>
+              );
+            }
+            return (
+              <Tooltip key={index} title={inputAnchor.type}>
+                <div className="p-4 flex flex-col border-b-2 border-gray-300 relative">
+                  <div>{inputAnchor.label}</div>
+                  <Handle
+                    position={Position.Left}
+                    type="target"
+                    key={inputAnchor.id}
+                    id={inputAnchor.id}
+                    isValidConnection={(connection) =>
+                      isValidConnection(connection, reactFlowInstance)
+                    }
+                    className=" absolute top-30 w-4 h-4 left-[-10px] "
+                  />
+                </div>
+              </Tooltip>
+            );
+          })}
+
         {/* render outputs */}
         <div className="py-2">
           {data?.outputAnchors?.map((outputAnchor: any, index: any) => {

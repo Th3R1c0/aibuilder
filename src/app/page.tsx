@@ -1,5 +1,5 @@
 "use client";
-import Flow from "@/components/homepageflow";
+import Flow from "@/components/flowComponents/homepageflow";
 const SectionText = (props: any) => {
   const reasons = [
     "intuitive features",

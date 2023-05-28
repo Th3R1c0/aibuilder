@@ -23,11 +23,11 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 
 //custom nodes
-import OpenAINode from "../customNodes/openAI";
-import LLMchain from "../customNodes/LLMchain";
-import PromptTemplates from "../customNodes/PromptTemplate";
-import ComposableNode from "../customNodes/node";
-import { getUniqueNodeId, initNode } from "../../utils";
+import OpenAINode from "../../customNodes/openAI";
+import LLMchain from "../../customNodes/LLMchain";
+import PromptTemplates from "../../customNodes/PromptTemplate";
+import ComposableNode from "../../customNodes/node";
+import { getUniqueNodeId, initNode } from "../../../utils";
 
 import { type Connection } from "reactflow";
 import { flowContext } from "@/GlobalRedux/ReactFlowContext";
@@ -42,10 +42,6 @@ interface initialNodesI {
 const initialNodes: initialNodesI[] = [];
 
 const initialEdges: any = [];
-
-//drag and drop
-let id = 5;
-const getId = () => `dndnode_${id++}`;
 
 const Flow = () => {
   const reactFlowWrapper = useRef(null);
