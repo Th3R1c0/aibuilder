@@ -1,3 +1,5 @@
+"use client";
+
 import { FiSettings } from "react-icons/fi";
 import { TbReload } from "react-icons/Tb";
 // import { AiOutlineQuestionCircle } from "react-icons/Ai";
