@@ -340,6 +340,15 @@ const fulldata = [
             optional: true,
           },
         ],
+        InputParams: [
+          {
+            "label": "Name",
+            "name": "Name",
+            "type": "string",
+            optional: true,
+          }
+        ],
+
         variables: [
             // {
             //     label: 'Name', 
