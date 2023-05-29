@@ -39,33 +39,28 @@ const initialValue = {
   currentSidebarScreen: "no Variables",
   setCurrentSideBarScreen: (e: Tsidebarscreens) => {},
   updateNodeVariables: () => {},
+  variableSearchPopup: false,
+  setVariableSearchPopup: () => {},
 };
 
 export const flowContext = createContext(initialValue);
 
 type Tsidebarscreens =
-  | "no Variables"
   | "variables"
   | "add_new_variable"
   | "Prompt"
   | "Memory"
+  | "individual_node_settings"
   | "Settings";
 
 const ReactFlowContext = ({ children }) => {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [currentSelectedNode, setCurrentSelectedNode] = useState(null);
   const [variables, setVariables] = useState([]);
+  const [variableSearchPopup, setVariableSearchPopup] = useState(false);
 
   const [currentSidebarScreen, setCurrentSideBarScreen] =
-    useState<Tsidebarscreens>("no Variables");
-
-  useEffect(() => {
-    if (variables.length === 0) {
-      setCurrentSideBarScreen("no Variables");
-    } else {
-      setCurrentSideBarScreen("variables");
-    }
-  }, [variables.length]);
+    useState<Tsidebarscreens>("variables");
 
   //! update node variables
   const updateNodeVariables = (selectedVariable, variable) => {
@@ -206,6 +201,8 @@ const ReactFlowContext = ({ children }) => {
         currentSidebarScreen,
         setCurrentSideBarScreen,
         updateNodeVariables,
+        variableSearchPopup,
+        setVariableSearchPopup,
       }}
     >
       {children}

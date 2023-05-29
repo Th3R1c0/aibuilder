@@ -1,75 +1,5 @@
 "use client";
 
-// {
-//   "label": "LLM Chain",
-//   "name": "llmChain",
-//   "type": "LLMChain",
-//   "icon": "D:/Flowise-1/node_modules/flowise-components/dist/nodes/chains/LLMChain/chain.svg",
-//   "category": "Chains",
-//   "description": "Chain to run queries against LLMs",
-//   "baseClasses": [
-//       "LLMChain",
-//       "BaseChain",
-//       "BaseLangChain"
-//   ],
-//   "inputs": {
-//       "model": "",
-//       "prompt": "",
-//       "chainName": ""
-//   },
-//   "outputs": {
-//       "output": "llmChain"
-//   },
-//   "filePath": "D:\\Flowise-1\\node_modules\\flowise-components\\dist\\nodes\\chains\\LLMChain\\LLMChain.js",
-//   "inputAnchors": [
-//       {
-//           "label": "Language Model",
-//           "name": "model",
-//           "type": "BaseLanguageModel",
-//           "id": "llmChain_0-input-model-BaseLanguageModel"
-//       },
-//       {
-//           "label": "Prompt",
-//           "name": "prompt",
-//           "type": "BasePromptTemplate",
-//           "id": "llmChain_0-input-prompt-BasePromptTemplate"
-//       }
-//   ],
-//   "inputParams": [
-//       {
-//           "label": "Chain Name",
-//           "name": "chainName",
-//           "type": "string",
-//           "placeholder": "Name Your Chain",
-//           "optional": true,
-//           "id": "llmChain_0-input-chainName-string"
-//       }
-//   ],
-//   "outputAnchors": [
-//       {
-//           "name": "output",
-//           "label": "Output",
-//           "type": "options",
-//           "options": [
-//               {
-//                   "id": "llmChain_0-output-llmChain-LLMChain|BaseChain|BaseLangChain",
-//                   "name": "llmChain",
-//                   "label": "LLM Chain",
-//                   "type": "LLMChain | BaseChain | BaseLangChain"
-//               },
-//               {
-//                   "id": "llmChain_0-output-outputPrediction-string",
-//                   "name": "outputPrediction",
-//                   "label": "Output Prediction",
-//                   "type": "string"
-//               }
-//           ],
-//           "default": "llmChain"
-//       }
-//   ],
-//   "id": "llmChain_0"
-
-// }
 import { Listbox } from "@headlessui/react";
 import { useContext, useEffect } from "react";
 import {
@@ -99,6 +29,7 @@ import {
   MixerHorizontalIcon,
 } from "@radix-ui/react-icons";
 import { FcCheckmark } from "react-icons/fc";
+import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import * as Popover from "@radix-ui/react-popover";
 import VariableSearch from "@/components/nodeComponents/variableSearch";
 export const isValidConnection = (connection, reactFlowInstance) => {
@@ -167,11 +98,8 @@ const ComposableNode = ({ data }: any) => {
   const { currentSelectedNode, setCurrentSelectedNode } =
     useContext(flowContext);
 
-  const handleOpenIndividualNodeSettings = () => {
-    // setCurrentSideBarScreen("individualNodeSettings");
-  };
-
-  const [variableSearchPopup, setVariableSearchPopup] = useState(false);
+  const { variableSearchPopup, setVariableSearchPopup } =
+    useContext(flowContext);
 
   const [currentVariableSelected, setCurrentVariableSelected] = useState(null);
 
@@ -181,9 +109,14 @@ const ComposableNode = ({ data }: any) => {
   };
 
   useEffect(() => {
-    console.log(`data: ${JSON.stringify(data)}`);
-  }, []);
-
+    console.log(
+      `CURRENTSELECTEDNODEIS: ${JSON.stringify(currentSelectedNode)}`
+    );
+  }, [currentSelectedNode]);
+  const handleClick = () => {
+    setCurrentSelectedNode(data);
+    setCurrentSideBarScreen("individual_node_settings");
+  };
   return (
     // overflow hidden creates half circles
     <>
@@ -201,6 +134,7 @@ const ComposableNode = ({ data }: any) => {
         className={` shadow-md bg-white  border-2 border-${
           currentSelectedNode?.id === data.id
         } rounded-lg  flex flex-col `}
+        onClick={handleClick}
       >
         {/* header */}
         <div className="flex flex-col p-2 border-b-2 border-gray-300">
@@ -213,8 +147,8 @@ const ComposableNode = ({ data }: any) => {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <div className="flex space-x-2">
               <BiBug className=" hover:bg-gray-200 rounded-md " />
-              <BiPencil
-                onClick={handleOpenIndividualNodeSettings}
+              <HiOutlineDocumentDuplicate
+                onClick={() => duplicateNode(data.id)}
                 className=" hover:bg-gray-200 rounded-md "
               />
               <BiTrash
