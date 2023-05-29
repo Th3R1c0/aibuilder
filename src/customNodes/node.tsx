@@ -255,7 +255,9 @@ const ComposableNode = ({ data }: any) => {
                   <div>{variable.label}</div>
                   <button
                     onClick={() => handleSelectVariable(variable)}
-                    className="rounded-md border-2 border-black  px-2 hover:bg-gray-200"
+                    className={` bg-${
+                      currentVariableSelected === variable ? "gray-200" : "none"
+                    } rounded-md border-2 border-black  px-2 hover:bg-gray-200`}
                   >
                     {variable.variableName === ""
                       ? "+ Add"

@@ -128,7 +128,7 @@ const fulldata = [
         ],
         "outputs": [
           {
-            "label": "LLM Chain",
+            "label": " Chain",
             "name": "llmChain",
             "baseClasses": ["LLMChain", "BaseChain", "BaseLangChain"]
           },
