@@ -190,7 +190,7 @@ const Flow = () => {
         onDragOver={onDragOver}
         fitView
         nodeTypes={nodeTypes}
-        onNodeClick={(event, node) => setCurrentSelectedNode(node)}
+        onNodeClick={undefined}
       >
         <MiniMap zoomable pannable />
         <Background variant={backgroundVariant as any} />

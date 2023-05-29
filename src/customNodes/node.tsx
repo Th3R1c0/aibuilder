@@ -89,6 +89,7 @@ import {
   FormControl,
   Autocomplete,
   TextField,
+  Input,
 } from "@mui/material";
 import { flowContext } from "@/GlobalRedux/ReactFlowContext";
 import GrBug from "react-icons/gr";
@@ -99,6 +100,7 @@ import {
 } from "@radix-ui/react-icons";
 import { FcCheckmark } from "react-icons/fc";
 import * as Popover from "@radix-ui/react-popover";
+import VariableSearch from "@/components/nodeComponents/variableSearch";
 export const isValidConnection = (connection, reactFlowInstance) => {
   const sourceHandle = connection.sourceHandle;
   const targetHandle = connection.targetHandle;
@@ -155,33 +157,51 @@ const ComposableNode = ({ data }: any) => {
   //   const onChange = useCallback((evt) => {
   //     console.log(evt.target.value);
   //   }, []);
-  const updateNodeInternals = useUpdateNodeInternals();
-  const [dropdownValue, setDropdownValue] = useState(null);
 
-  //notify react-flow that a node has internally changed something of itsself like its handle position or number of handles
-  useEffect(() => {
-    if (dropdownValue) {
-      setTimeout(() => {
-        updateNodeInternals(data.id);
-      }, 0);
-    }
-  }, [dropdownValue]);
   const { reactFlowInstance, setReactFlowInstance } = useContext(flowContext);
   const { deleteNode, duplicateNode } = useContext(flowContext);
 
-  const [settings, setIsSettingsOpen] = useState(false);
+  const { currentSidebarScreen, setCurrentSideBarScreen } =
+    useContext(flowContext);
 
-  const [variableSearchPopup, setIsVariableSearchPopup] = useState(false);
-  const handleEditVariable = (variableName: string) => {
-    // when there is no variable (variableName === ''), open a popup? or go to sidebar and open variable tab? orrrr.
+  const { currentSelectedNode, setCurrentSelectedNode } =
+    useContext(flowContext);
+
+  const handleOpenIndividualNodeSettings = () => {
+    // setCurrentSideBarScreen("individualNodeSettings");
   };
 
-  const { currentSelectedNode } = useContext(flowContext);
+  const [variableSearchPopup, setVariableSearchPopup] = useState(false);
+
+  const [currentVariableSelected, setCurrentVariableSelected] = useState(null);
+
+  const handleSelectVariable = (variable) => {
+    setCurrentVariableSelected(variable);
+    setVariableSearchPopup(true);
+  };
+
+  useEffect(() => {
+    console.log(`data: ${JSON.stringify(data)}`);
+  }, []);
 
   return (
     // overflow hidden creates half circles
     <>
-      <div className=" shadow-md hover:border-blue-800  bg-white border-2 border-gray-300 rounded-lg  flex flex-col ">
+      <NodeToolbar isVisible={variableSearchPopup} position={"right"}>
+        <VariableSearch
+          setVariableSearchPopup={(state: boolean) => {
+            //put in seperate function called close variable search
+            setVariableSearchPopup(state);
+            setCurrentVariableSelected(null);
+          }}
+          currentVariableSelected={currentVariableSelected}
+        />
+      </NodeToolbar>
+      <div
+        className={` shadow-md bg-white  border-2 border-${
+          currentSelectedNode?.id === data.id
+        } rounded-lg  flex flex-col `}
+      >
         {/* header */}
         <div className="flex flex-col p-2 border-b-2 border-gray-300">
           {/* top header bar */}
@@ -194,7 +214,7 @@ const ComposableNode = ({ data }: any) => {
             <div className="flex space-x-2">
               <BiBug className=" hover:bg-gray-200 rounded-md " />
               <BiPencil
-                onClick={() => setIsSettingsOpen((e) => !e)}
+                onClick={handleOpenIndividualNodeSettings}
                 className=" hover:bg-gray-200 rounded-md "
               />
               <BiTrash
@@ -207,31 +227,34 @@ const ComposableNode = ({ data }: any) => {
             <p>{data.description}</p>
           </div>
         </div>
-
         {/* render paramters if we have any inputs which turn into inputAnchors from algorythm */}
-        {/* {data.inputParams && (
-          <div className="flex flex-col p-8 border-b-2 space-y-4 border-gray-300">
-            {data.inputParams.map((parameter: any, index: number) => {
+        {data.InputParams && (
+          <div className="flex flex-col p-4 border-b-2 space-y-4 border-gray-300">
+            {data.InputParams.map((parameter: any, index: number) => {
               return (
                 <div key={index} className="w-full 200 justify-between flex">
                   <div>{parameter.name}</div>
-                  <button className="rounded-md border-2 border-black  px-2">
-                    varialbe
-                  </button>
+                  {parameter.type === "string" ? (
+                    <Input placeholder="enter name" />
+                  ) : (
+                    <button className="rounded-md border-2 border-black  px-2">
+                      varialbe
+                    </button>
+                  )}
                 </div>
               );
             })}
           </div>
-        )}{" "} */}
+        )}{" "}
         {/* render variables */}
-        <div className="flex flex-col p-4 border-b-2 space-y-4 border-gray-300">
-          {data.variables &&
-            data.variables.map((variable: any, index: number) => {
+        {data.variables.length > 0 && (
+          <div className="flex flex-col p-4 border-b-2 space-y-4 border-gray-300">
+            {data.variables.map((variable: any, index: number) => {
               return (
                 <div key={index} className="w-full 200 justify-between flex">
                   <div>{variable.label}</div>
                   <button
-                    onClick={() => handleEditVariable(variable.variableName)}
+                    onClick={() => handleSelectVariable(variable)}
                     className="rounded-md border-2 border-black  px-2 hover:bg-gray-200"
                   >
                     {variable.variableName === ""
@@ -241,12 +264,12 @@ const ComposableNode = ({ data }: any) => {
                 </div>
               );
             })}{" "}
-        </div>
-
+          </div>
+        )}{" "}
         {/* render inputs */}
         {data.inputAnchors &&
           data.inputAnchors.map((inputAnchor: any, index: any) => {
-            // console.log(`inputAnchors: ${JSON.stringify(inputAnchor)}`);
+            console.log(`inputAnchors: ${JSON.stringify(inputAnchor)}`);
             if (inputAnchor.optional === true) {
               return (
                 <Tooltip key={index} title={inputAnchor.type}>
@@ -256,6 +279,7 @@ const ComposableNode = ({ data }: any) => {
                 </Tooltip>
               );
             }
+
             return (
               <Tooltip key={index} title={inputAnchor.type}>
                 <div className="p-4 flex flex-col border-b-2 border-gray-300 relative">
@@ -274,7 +298,6 @@ const ComposableNode = ({ data }: any) => {
               </Tooltip>
             );
           })}
-
         {/* render outputs */}
         <div className="py-2">
           {data?.outputAnchors?.map((outputAnchor: any, index: any) => {

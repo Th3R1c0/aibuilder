@@ -1,6 +1,6 @@
 import { FiSettings } from "react-icons/fi";
 import { TbReload } from "react-icons/Tb";
-import { AiOutlineQuestionCircle } from "react-icons/Ai";
+// import { AiOutlineQuestionCircle } from "react-icons/Ai";
 import { IoExtensionPuzzleOutline } from "react-icons/io5";
 const AppHeader = () => {
   return (
@@ -9,7 +9,7 @@ const AppHeader = () => {
       <div className="flex items-center space-x-4 ">
         <FiSettings />
         <TbReload />
-        <AiOutlineQuestionCircle />
+        {/* <AiOutlineQuestionCircle /> */}
         <IoExtensionPuzzleOutline />
       </div>
     </header>
