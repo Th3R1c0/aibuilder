@@ -7,6 +7,8 @@ import classNames from "classnames";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import * as Slider from "@radix-ui/react-slider";
 import React, { useContext, useEffect, useState } from "react";
+import { flowContext } from "@/GlobalRedux/ReactFlowContext";
+import { HiX } from "react-icons/hi";
 
 // const AccordionItem = React.forwardRef(
 //   ({ children, className, ...props }, forwardedRef) => (
@@ -167,10 +169,16 @@ const RenderEditModelScreen = ({ variable, addVariable, updateVariable }) => {
       updateVariable(updatedModelVariable);
     }
   };
+  const { setCurrentSideBarScreen } = useContext(flowContext);
   return (
     <>
       <div className="w-[300px] rounded-md shadow-[0_2px_10px] shadow-black/5">
-        <div>Edit Model </div>
+        <div> </div>
+
+        <div className="flex justify-between items-center">
+          <h3>Edit Model</h3>
+          <HiX onClick={() => setCurrentSideBarScreen("variables")} />
+        </div>
         {sections.map((section, sectionIndex) => {
           return (
             <div

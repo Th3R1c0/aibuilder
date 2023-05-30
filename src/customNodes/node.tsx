@@ -89,7 +89,12 @@ const ComposableNode = ({ data }: any) => {
   //     console.log(evt.target.value);
   //   }, []);
 
-  const { reactFlowInstance, setReactFlowInstance } = useContext(flowContext);
+  const {
+    reactFlowInstance,
+    setReactFlowInstance,
+    currentVariableSelected,
+    setCurrentVariableSelected,
+  } = useContext(flowContext);
   const { deleteNode, duplicateNode } = useContext(flowContext);
 
   const { currentSidebarScreen, setCurrentSideBarScreen } =
@@ -101,11 +106,9 @@ const ComposableNode = ({ data }: any) => {
   const { variableSearchPopup, setVariableSearchPopup } =
     useContext(flowContext);
 
-  const [currentVariableSelected, setCurrentVariableSelected] = useState(null);
-
   const handleSelectVariable = (variable) => {
     setCurrentVariableSelected(variable);
-    setVariableSearchPopup(true);
+    setVariableSearchPopup(data.id);
   };
 
   useEffect(() => {
@@ -120,7 +123,10 @@ const ComposableNode = ({ data }: any) => {
   return (
     // overflow hidden creates half circles
     <>
-      <NodeToolbar isVisible={variableSearchPopup} position={"right"}>
+      <NodeToolbar
+        isVisible={variableSearchPopup === data.id}
+        position={"right"}
+      >
         <VariableSearch
           setVariableSearchPopup={(state: boolean) => {
             //put in seperate function called close variable search

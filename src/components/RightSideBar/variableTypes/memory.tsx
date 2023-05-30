@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { flowContext } from "@/GlobalRedux/ReactFlowContext";
+import { useState, useContext } from "react";
+import { HiX } from "react-icons/hi";
 
 interface ImemoryData {
   memorySize: "Tokens" | "Sentences" | "Paragraphs";
@@ -50,10 +52,14 @@ const RenderEditMemoryScreen = ({ variable, addVariable, updateVariable }) => {
       updateVariable(updatedMemoryVariable);
     }
   };
-
+  const { setCurrentSideBarScreen } = useContext(flowContext);
   return (
     <div className="flex flex-col space-y-2">
-      <h3>Edit Memory Settings</h3>
+      <div className="flex justify-between items-center">
+        <h3>Edit Memory Settings</h3>
+        <HiX onClick={() => setCurrentSideBarScreen("variables")} />
+      </div>
+
       <div>
         name: <input value={name} onChange={(e) => setName(e.target.value)} />
       </div>

@@ -41,6 +41,8 @@ const initialValue = {
   updateNodeVariables: () => {},
   variableSearchPopup: false,
   setVariableSearchPopup: () => {},
+  currentVariableSelected: null,
+  setCurrentVariableSelected: () => {},
 };
 
 export const flowContext = createContext(initialValue);
@@ -58,6 +60,7 @@ const ReactFlowContext = ({ children }) => {
   const [currentSelectedNode, setCurrentSelectedNode] = useState(null);
   const [variables, setVariables] = useState([]);
   const [variableSearchPopup, setVariableSearchPopup] = useState(false);
+  const [currentVariableSelected, setCurrentVariableSelected] = useState(null);
 
   const [currentSidebarScreen, setCurrentSideBarScreen] =
     useState<Tsidebarscreens>("variables");
@@ -203,6 +206,8 @@ const ReactFlowContext = ({ children }) => {
         updateNodeVariables,
         variableSearchPopup,
         setVariableSearchPopup,
+        currentVariableSelected,
+        setCurrentVariableSelected,
       }}
     >
       {children}

@@ -11,6 +11,7 @@ import RenderEditPromptScreen from "./variableTypes/prompt";
 import RenderEditMemoryScreen from "./variableTypes/memory";
 import RenderEditModelScreen from "./variableTypes/model";
 import NodeSettings from "./nodeSettings";
+import RenderEditoutputParser from "./variableTypes/outputParser";
 
 interface IvariableTypes {
   name: string;
@@ -67,6 +68,7 @@ const TopRightSideBar = () => {
     {
       name: "Parser",
       icon: RxCross1,
+      display: RenderEditoutputParser,
     },
   ];
 
